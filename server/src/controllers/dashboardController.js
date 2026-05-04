@@ -1,6 +1,7 @@
 const prisma = require('../config/prisma');
 const { fetchPrices } = require('../services/cryptoPrices');
 const { getRandomMeme } = require('../services/meme');
+const { generateAIInsight } = require('../services/aiInsight');
 
 function getMockNews(assets) {
   return assets.flatMap(coin => [
@@ -9,19 +10,6 @@ function getMockNews(assets) {
   ]).slice(0, 6);
 }
 
-function getMockInsight(assets, investorType) {
-  const coinList = assets.join(', ');
-  const strategy = investorType === 'long-term'
-    ? 'focus on accumulation during dips and avoid reacting to short-term volatility'
-    : investorType === 'short-term'
-    ? 'watch for breakout patterns and set tight stop-losses'
-    : 'diversify across your selected assets and rebalance regularly';
-
-  return {
-    id: 'insight-today',
-    text: `As a ${investorType} investor holding ${coinList}, today's key insight is to ${strategy}. Market sentiment remains mixed — stay disciplined.`,
-  };
-}
 
 
 async function getDashboard(req, res) {
@@ -34,14 +22,18 @@ async function getDashboard(req, res) {
   }
 
   const assets = JSON.parse(preference.assets);
+  const contentTypes = JSON.parse(preference.contentTypes);
   const { investorType } = preference;
 
-  const prices = await fetchPrices(assets);
+  const [prices, aiInsight] = await Promise.all([
+    fetchPrices(assets),
+    generateAIInsight({ assets, investorType, contentTypes }),
+  ]);
 
   res.json({
     news:      getMockNews(assets),
     prices,
-    aiInsight: getMockInsight(assets, investorType),
+    aiInsight,
     meme:      getRandomMeme(assets),
   });
 }
