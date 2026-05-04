@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id                    Int        @id @default(autoincrement())
+  name                  String
+  email                 String     @unique
+  passwordHash          String
+  hasCompletedOnboarding Boolean   @default(false)
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+
+  preference            Preference?
+  votes                 Vote[]
+}
+
+model Preference {
+  id           Int      @id @default(autoincrement())
+  userId       Int      @unique
+  assets       String   // JSON string e.g. '["BTC","ETH"]'
+  investorType String
+  contentTypes String   // JSON string e.g. '["news","prices"]'
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model Vote {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  section   String   // e.g. "news", "prices", "aiInsight", "meme"
+  itemId    String
+  value     Int      // 1 = thumbs up, -1 = thumbs down
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
+}
