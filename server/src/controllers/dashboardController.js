@@ -1,11 +1,6 @@
 const prisma = require('../config/prisma');
 const { fetchPrices } = require('../services/cryptoPrices');
-
-const MOCK_MEMES = [
-  { id: 'meme-1', title: 'When Bitcoin dips 5% and you bought the top', url: 'https://i.imgflip.com/1bij.jpg' },
-  { id: 'meme-2', title: 'HODL gang rise up', url: 'https://i.imgflip.com/26am.jpg' },
-  { id: 'meme-3', title: 'My portfolio is totally fine', url: 'https://i.imgflip.com/3oevdk.jpg' },
-];
+const { getRandomMeme } = require('../services/meme');
 
 function getMockNews(assets) {
   return assets.flatMap(coin => [
@@ -28,9 +23,6 @@ function getMockInsight(assets, investorType) {
   };
 }
 
-function getRandomMeme() {
-  return MOCK_MEMES[Math.floor(Math.random() * MOCK_MEMES.length)];
-}
 
 async function getDashboard(req, res) {
   const userId = req.user.id;
@@ -50,7 +42,7 @@ async function getDashboard(req, res) {
     news:      getMockNews(assets),
     prices,
     aiInsight: getMockInsight(assets, investorType),
-    meme:      getRandomMeme(),
+    meme:      getRandomMeme(assets),
   });
 }
 
