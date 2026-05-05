@@ -18,7 +18,7 @@ async function getDashboard(req, res) {
   const { investorType } = preference;
 
   const [news, prices, aiInsight] = await Promise.all([
-    fetchCryptoNews(assets),
+    fetchCryptoNews(assets, contentTypes),
     fetchPrices(assets),
     generateAIInsight({ assets, investorType, contentTypes }),
   ]);
