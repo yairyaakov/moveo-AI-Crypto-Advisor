@@ -4,6 +4,16 @@ A fullstack personalized crypto investor dashboard. Users sign up, complete a sh
 
 ---
 
+## Live Demo
+
+- **Frontend (Vercel):** https://moveo-ai-crypto-advisor-ten.vercel.app
+- **Backend API (Railway):** https://moveo-ai-crypto-advisor-production.up.railway.app
+- **Health Check:** https://moveo-ai-crypto-advisor-production.up.railway.app/api/health
+
+The frontend is deployed on Vercel and the backend API is deployed on Railway. The backend uses SQLite for simplicity — note that the database is non-persistent between Railway redeploys, so data may reset.
+
+---
+
 ## Features
 
 - **Authentication** — Signup and login with JWT. Passwords hashed with bcrypt.
