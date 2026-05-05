@@ -9,10 +9,10 @@ const INVESTOR_TYPES = [
   { value: 'balanced',   label: 'Balanced investor' },
 ];
 const CONTENT_OPTIONS = [
-  { value: 'news',   label: 'Market News' },
-  { value: 'prices', label: 'Coin Prices' },
-  { value: 'ai',     label: 'AI Insights' },
-  { value: 'memes',  label: 'Crypto Memes' },
+  { value: 'market-news', label: 'Market News' },
+  { value: 'charts',      label: 'Charts' },
+  { value: 'social',      label: 'Social' },
+  { value: 'fun',         label: 'Fun' },
 ];
 
 export default function Onboarding() {
