@@ -1,16 +1,8 @@
 const prisma = require('../config/prisma');
 const { fetchPrices } = require('../services/cryptoPrices');
-const { getRandomMeme } = require('../services/meme');
+const { fetchCryptoNews } = require('../services/cryptoNews');
 const { generateAIInsight } = require('../services/aiInsight');
-
-function getMockNews(assets) {
-  return assets.flatMap(coin => [
-    { id: `news-${coin}-1`, title: `${coin} shows strong momentum as institutional interest grows`, source: 'CryptoNews' },
-    { id: `news-${coin}-2`, title: `Analysts weigh in on ${coin}'s next price target`, source: 'CoinDesk' },
-  ]).slice(0, 6);
-}
-
-
+const { getRandomMeme } = require('../services/meme');
 
 async function getDashboard(req, res) {
   const userId = req.user.id;
@@ -25,16 +17,18 @@ async function getDashboard(req, res) {
   const contentTypes = JSON.parse(preference.contentTypes);
   const { investorType } = preference;
 
-  const [prices, aiInsight] = await Promise.all([
+  const [news, prices, aiInsight] = await Promise.all([
+    fetchCryptoNews(assets),
     fetchPrices(assets),
     generateAIInsight({ assets, investorType, contentTypes }),
   ]);
 
   res.json({
-    news:      getMockNews(assets),
+    preferences: { assets, investorType, contentTypes },
+    news,
     prices,
     aiInsight,
-    meme:      getRandomMeme(assets),
+    meme: getRandomMeme(assets),
   });
 }
 
