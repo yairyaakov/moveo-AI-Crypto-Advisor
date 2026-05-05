@@ -48,10 +48,12 @@ export default function Dashboard() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    getDashboard().then(res => {
-      if (res.error) setError(res.error);
-      else setData(res);
-    });
+    getDashboard()
+      .then(res => {
+        if (res.error) setError(res.error);
+        else setData(res);
+      })
+      .catch(() => setError('Failed to load dashboard. Please try again.'));
   }, []);
 
   function handleLogout() {
