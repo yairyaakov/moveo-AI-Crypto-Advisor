@@ -53,7 +53,7 @@ The frontend is deployed on Vercel and the backend API is deployed on Railway. T
 
 **`client/`** contains all frontend pages (Login, Signup, Onboarding, Dashboard), API helpers, and styles.
 
-**`server/`** contains Express routes, controllers, Prisma schema, services for each external API, and the SQLite database.
+**`server/`** contains Express routes, controllers, Prisma schema, services for each external API, and SQLite/Prisma database configuration.
 
 ---
 
@@ -70,6 +70,26 @@ CRYPTOPANIC_API_KEY=your_cryptopanic_api_key_here
 ```
 
 `OPENROUTER_API_KEY` and `CRYPTOPANIC_API_KEY` are **optional**. If not provided, the app uses static fallback data for AI insights and news headlines.
+
+---
+
+### Frontend Environment Variables
+
+The frontend uses `VITE_API_URL` to know where the backend API is deployed.
+
+For local development, create a `client/.env` file:
+
+```env
+VITE_API_URL=http://localhost:3000
+```
+
+For Vercel production deployment, set the environment variable in your Vercel project settings:
+
+```
+VITE_API_URL=https://moveo-ai-crypto-advisor-production.up.railway.app
+```
+
+Without this variable, the frontend falls back to `http://localhost:3000`, which will not work in production.
 
 ---
 
