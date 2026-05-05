@@ -89,7 +89,7 @@ For Vercel production deployment, set the environment variable in your Vercel pr
 VITE_API_URL=https://moveo-ai-crypto-advisor-production.up.railway.app
 ```
 
-Without this variable, the frontend falls back to `http://localhost:3000`, which will not work in production.
+For production deployment, this variable must point to the deployed backend URL.
 
 ---
 
