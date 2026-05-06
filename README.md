@@ -51,7 +51,7 @@ The frontend is deployed on Vercel and the backend API is deployed on Railway. T
 └── README.md
 ```
 
-**`client/`** contains all frontend pages (Login, Signup, Onboarding, Dashboard), API helpers, and styles.
+**`client/`** contains all frontend pages (Login, Signup, Onboarding, Dashboard), API helpers, styles, and a `vercel.json` that configures SPA rewrite rules for Vercel deployment.
 
 **`server/`** contains Express routes, controllers, Prisma schema, services for each external API, and SQLite/Prisma database configuration.
 
@@ -90,6 +90,12 @@ VITE_API_URL=https://moveo-ai-crypto-advisor-production.up.railway.app
 ```
 
 For production deployment, this variable must point to the deployed backend URL.
+
+---
+
+### Vercel SPA Routing
+
+`client/vercel.json` contains a rewrite rule that sends all routes to `index.html`, allowing React Router to handle client-side navigation. Without this, refreshing a route like `/dashboard` directly on Vercel would return a 404.
 
 ---
 
